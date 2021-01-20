@@ -7,11 +7,12 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
-@CrossOrigin
+@CrossOrigin(origins = ["http://localhost:8008"])
 @RestController
 @RequestMapping("/api")
 class CrudController(private val todoRepository: TodoRepository) {
 
+    @CrossOrigin
     @GetMapping("/todos")
     fun getAllTodos(): MutableIterable<Todo> {
         return todoRepository.findAll()
@@ -32,6 +33,7 @@ class CrudController(private val todoRepository: TodoRepository) {
         }.orElse(ResponseEntity.notFound().build())
     }
 
+    @CrossOrigin
     @DeleteMapping("/todos/{id}")
     fun deleteTodo(@PathVariable(value = "id") todoId: Long): ResponseEntity<Void> {
         return todoRepository.findById(todoId) .map { todo ->
