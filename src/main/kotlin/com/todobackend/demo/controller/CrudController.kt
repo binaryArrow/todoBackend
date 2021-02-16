@@ -27,9 +27,9 @@ class CrudController(private val todoRepository: TodoRepository) {
     fun updateTodo(@PathVariable(value = "id") todoId: Long, @Validated @RequestBody newTodo: Todo): ResponseEntity<Todo>{
 
         return todoRepository.findById(todoId).map { existingTodo ->
-            val updatedTodo:Todo = existingTodo
-                    .copy(description = newTodo.description, done = newTodo.done)
-            ResponseEntity.ok().body(todoRepository.save(updatedTodo))
+                val updatedTodo:Todo = existingTodo
+                        .copy(description = newTodo.description, done = newTodo.done)
+                ResponseEntity.ok().body(todoRepository.save(updatedTodo))
         }.orElse(ResponseEntity.notFound().build())
     }
 
