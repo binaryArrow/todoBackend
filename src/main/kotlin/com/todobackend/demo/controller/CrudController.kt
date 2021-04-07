@@ -1,6 +1,8 @@
 package com.todobackend.demo.controller
 
+import com.todobackend.demo.dto.ShoppingList
 import com.todobackend.demo.dto.Todo
+import com.todobackend.demo.repository.ShoppingRepository
 import com.todobackend.demo.repository.TodoRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -10,7 +12,8 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin(origins = ["http://localhost:8008"])
 @RestController
 @RequestMapping("/api")
-class CrudController(private val todoRepository: TodoRepository) {
+class CrudController(private val todoRepository: TodoRepository,
+                     private val shoppingRepository: ShoppingRepository) {
 
     @CrossOrigin
     @GetMapping("/todos")
@@ -40,5 +43,11 @@ class CrudController(private val todoRepository: TodoRepository) {
             todoRepository.delete(todo)
             ResponseEntity<Void>(HttpStatus.OK)
         }.orElse(ResponseEntity.notFound().build())
+    }
+
+    @CrossOrigin
+    @GetMapping("/shoppingList")
+    fun getAllShoppingListItems(): MutableIterable<ShoppingList> {
+        return shoppingRepository.findAll()
     }
 }
